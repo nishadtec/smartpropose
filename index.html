@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>একটা প্রশ্ন আছে...</title>
+<title>I have to know...</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -40,7 +40,6 @@
     padding:24px;
   }
 
-  /* --- Invitation card --- */
   .card{
     position:relative;
     width:100%;
@@ -131,7 +130,7 @@
     color:#a3766f;
   }
 
-  /* --- Success screen --- */
+
   #successScreen{
     position:fixed;
     inset:0;
@@ -206,12 +205,12 @@
 <div id="successScreen">
   <div class="success-inner">
     <div class="mark">♥</div>
-    <!-- এখানে চাইলে নিজের মতো করে মেসেজ বদলে দিতে পারো -->
-    <h2>জানতাম, তুমি "না" বলতে পারবে না 😊</h2>
+
+    <h2>I knew you couldn't say "no"😊</h2>
     <p>
-      তোমার এই "হ্যাঁ" শব্দটা আমার কাছে জীবনের সবচেয়ে সুন্দর শব্দ হয়ে থাকবে।
-      তোমার হাত ধরে বাকি জীবনটা কাটানোর অপেক্ষায় থাকলাম।
-      ভালোবাসি তোমাকে, এখনও, সবসময়ের মতো। ♥
+      Your "yes" will be the most beautiful word of my life.
+I look forward to spending the rest of my life holding your hand.
+I love you, still, as always.♥
     </p>
   </div>
 </div>
@@ -224,15 +223,12 @@
   const successScreen = document.getElementById('successScreen');
 
   const taunts = [
-    "উঁহু, ওখানে ধরা যাবে না 😄",
-    "আরেকটু চেষ্টা করো...",
-    "না বলার সুযোগ নাই 😌",
-    "এটাও পালিয়ে গেল, তাই না?",
-    "শুধু একটাই অপশন বাকি আছে এখন",
-    "হাল ছেড়ে দাও, হ্যাঁ-ই বলো ♥"
+    "Ugh, you can't get caught there😄",
+    "Try more...",
+    "Give up, just say yes♥"
   ];
   let dodgeCount = 0;
-  const DODGE_THRESHOLD = 90; // px
+  const DODGE_THRESHOLD = 90; 
 
   function rectsOverlap(a, b, margin){
     return !(
@@ -264,7 +260,6 @@
         return candidate;
       }
     }
-    // fallback: push it to whichever side has more room
     return avoidRel.x > maxX - avoidRel.x - avoidRel.w
       ? { x: 0, y: candidate.y }
       : { x: maxX, y: candidate.y };
@@ -277,17 +272,14 @@
     dodgeCount++;
     taunt.textContent = taunts[Math.min(dodgeCount - 1, taunts.length - 1)];
 
-    // yes button grows a little each time, playfully
     const growth = Math.min(dodgeCount * 2, 26);
     yesBtn.style.fontSize = (19 + growth * 0.4) + 'px';
     yesBtn.style.padding = (16 + growth * 0.5) + 'px ' + (34 + growth) + 'px';
 
-    // no button shrinks a little, but stays tappable-ish until it vanishes from reach
     const shrink = Math.max(16 - dodgeCount * 0.6, 11);
     noBtn.style.fontSize = shrink + 'px';
   }
 
-  // Position "no" button at a natural starting spot next to "yes"
   function initNoBtnPosition(){
     const yesRect = yesBtn.getBoundingClientRect();
     const rowRect = btnRow.getBoundingClientRect();
@@ -309,10 +301,8 @@
     }
   }
 
-  // Mouse
   document.addEventListener('mousemove', (e) => handlePointer(e.clientX, e.clientY));
 
-  // Touch: dodge as soon as a finger gets close, and never let touchstart land on it
   document.addEventListener('touchmove', (e) => {
     for (const t of e.touches){
       handlePointer(t.clientX, t.clientY);
@@ -324,13 +314,11 @@
     dodge();
   }, { passive:false });
 
-  // Safety net: if it's ever somehow clicked/tapped, dodge instead of firing
   noBtn.addEventListener('click', (e) => {
     e.preventDefault();
     dodge();
   });
 
-  // Yes -> reveal the message + gentle heart shower
   yesBtn.addEventListener('click', () => {
     successScreen.classList.add('show');
     spawnHearts();
